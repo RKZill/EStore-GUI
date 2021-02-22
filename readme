@@ -1,0 +1,114 @@
+This program, EStoreSearch, was made by Ryan Kelsey, for my CIS2340 Assignment 2
+October 18th, 2020.
+Made in Java 8
+Compiled with Gradle 6.7
+
+1) General Problem
+    What I am trying to accomplish with this program is to create a basic store,
+    using a GUI. The GUI will use javas swing and awt packages, The store
+    currently only holds either a book, or a type of electronic. This store will
+    provide the user with 3 options, add, search, and quit.
+     -Add will add an item after prompting the user for required details.
+     -You also have the option to reset your inputs, and to go back to the main menu.
+     -Search will search the lists for items after prompting the user or required detials.
+     -Similarly to add, the serch screen will also feature the back and reset buttons.
+     -Quit will quit the program.
+    The program also will take in a command line argument of type textfile and load info at the start and save
+    info at the end
+
+    The program is built rather robust and will tell the user when an entered input is
+    an error, the user will get unlimted tries to enter the correct attributes needed
+    to succesfull add an item.
+
+2) Assumptions and limitations
+  Assumptions
+    This program will assume the user is compiling and running it with "./gradlew build",
+    and "./gradlew run", respectively. It also assumes the correct version for java, Java 8,
+    and gradle, Gradle 6.7, are being used.
+    Optinoally, the user can run using ./gradlew runn --args="FILENAME.txt" where FILENME is the name you
+    want to load and save.
+    As for assumptions about the items and its attributes, the program will assume the
+    user will only want to add a book or electronic.
+  limitations
+    This program has the limitation of either storing a book or an electronic.
+    It also only has set attributes that can be added.
+
+3) Building and testing
+    To build the program make sure you have the right version of gradle and java installed,
+    and run "./gradlew build" and "./gradlew run", to build and run the program, respectively.
+
+    To test the program simply either check the test files by running "./gradlew test", or run
+    the program yourself and test to see if all attributes of the items you entered are correctly displayed
+    when searching for them.
+
+
+4) Test plan.
+    a) Testing Valid addition of items
+
+    **This will test for valid inputs in the year, description, and ProductID.
+    Any other fields can be blank or have anything the user wants inside them,
+    as the assignment only had limitations on what can be entered in year, ID, and description, nothing else **
+
+    ***everytime the user enters a value that is invalid, the program will iterate back and tell the user the requirements needed***
+
+    My program has a method, checkID, which will check for a valid id. It looks for these requirements to be Valid:
+      -a 6 digit number
+      -no other characters besides 0-9
+      -cannot be a duplicate
+    These were tested by writing a Junit test that will add a product with the id "110001"
+    from here it will try to add another item with the same id, and returns a -1 indicating a fail
+    it will try to add "200.000" which is fail, because there is something other thn 0-9 in it
+    It will try to add "1000", which is a fail because it is too short
+    It will try and add "1000000", which is a fail because its too long
+    Finally, it will add "100000", which is a pass because its a 6 digit ID that has no duplicates
+
+    My program has a method, checkDescription, which will check for a valid description. It looks for these requirements to be Valid:
+      -The description is not blank
+    This was tested vy running a Junit test that calls upon checkDescription to see if various values will be a pass or fail.
+    It will try to add "This is a valid description". This is a pass because the descrpiton is non blank
+    It will try to add "". This is a fail because it needs to be non blank
+
+    My program has a method, checkYear, which will check for a valid Year. It looks for these requirements to be Valid:
+      -A number
+      -Must be between 1000 and 9999
+      -No other characters besides the Year
+    This was tested by running a junit test and seeing if calling the checkyear resulted in a valid input or not.
+    These are the tested values and their corresponding pass/fail
+    1000 - valid
+    9999 - valid
+    2020 - valid
+    999   - invalid
+    10000 - Invalid
+    "year"- Invalid
+    ""    - invalid
+
+    b) Checking for valid inputs in the search method
+    method checkIDSearch will check to see if the search ID is correct, the junit test checks for:
+      -This checks the exact same as the checkID, but it also will accept a blank value and doesnt
+      care whether the id is used or not previously.
+      -Id is numeric and 6 digits long
+    method checkDescription will check for a valid descirption
+      -any keyword (or none) can be entered
+    method checkYearSearch will check to see if the year range is Valid. the junit test will check for
+      -if the ending year is greater than first
+      -if the start and end years are within range of 1000-9999
+      -if the input is entered valid: xxxx or -xxxx or xxxx-xxxx or xxxx-
+
+    c) Files
+      -This program will test to see if the file name exists and if it doesnt exist, will continue on without using
+      the file
+
+    d) Searching
+      -My Junit test will create a arraylist of products, add various books and electronics to it.
+      -Then it will test to see if the keywrod search returns an expected arraylist of integers (The products positions in the list)
+        -it will test for item at start of lists
+        -end of list
+        -middle of lists
+        -and multiple keywrods at once
+
+
+5) Future improvements
+   a) I could have improved the modularity of this code.
+   b) another improvement Is writing more extensive Junit tests to cover 100% of all possible classUnderTest
+   c) finally, I could have condensed this program by reusing certain snippets of code, but due to time constaint,
+   I was not able to do that
